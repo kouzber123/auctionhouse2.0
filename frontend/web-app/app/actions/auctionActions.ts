@@ -1,0 +1,10 @@
+"use server";
+import { PagedResult, Auction } from "@/types";
+
+export async function getData(query: string): Promise<PagedResult<Auction>> {
+  console.log(query);
+  const res = await fetch(`http://localhost:6001/search${query}`);
+
+  if (!res.ok) throw new Error("failed to fetch data");
+  return res.json();
+}

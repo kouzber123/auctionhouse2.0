@@ -22,7 +22,8 @@ namespace SearchService.Controllers
             }
             query = searchParams.OrderBy switch 
             {
-                "make" => query.Sort(x => x.Ascending(m => m.Make)),
+                "endingSoon" => AddOrdering(query.Sort(x => x.Ascending(a => a.AuctionEnd))),
+                "make" => AddOrdering(query),
                 "new" => query.Sort(x => x.Descending(c => c.CreatedAt)),
                 _ => query.Sort(x => x.Ascending(a => a.AuctionEnd)),
                
@@ -33,7 +34,7 @@ namespace SearchService.Controllers
                 "endingSoon" => query.Match(x => x.AuctionEnd < DateTime.UtcNow.AddHours(6) && x.AuctionEnd > DateTime.UtcNow),
                 _ => query.Match(x => x.AuctionEnd > DateTime.UtcNow)
             };
-
+           
             if(!string.IsNullOrEmpty(searchParams.Seller)) {
 
                 query.Match(x => x.Seller == searchParams.Seller); 
@@ -53,5 +54,13 @@ namespace SearchService.Controllers
                 totalCount = result.TotalCount
             });
         }
+
+        private static PagedSearch<Item, Item> AddOrdering(PagedSearch<Item, Item> query)
+        {
+               return query.Sort(x => x.Ascending(m => m.Make)).Sort(y => y.Ascending(a => a.Model));
+        }
     }
+    
+ 
 }
+

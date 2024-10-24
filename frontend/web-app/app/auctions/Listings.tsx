@@ -38,7 +38,7 @@ export default function Listings() {
 
   if (!data) return <h3>Loading...</h3>;
 
-  return (
+    return (
     <>
       <Filters />
       {data.totalCount === 0 ? (

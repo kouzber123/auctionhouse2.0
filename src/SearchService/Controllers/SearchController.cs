@@ -24,9 +24,9 @@ namespace SearchService.Controllers
             {
                 "endingSoon" => AddOrdering(query.Sort(x => x.Ascending(a => a.AuctionEnd))),
                 "make" => AddOrdering(query),
-                "new" => query.Sort(x => x.Descending(c => c.CreatedAt)),
+                "new" => query.Sort(x => x.Descending(a => a.CreatedAt)),
                 _ => query.Sort(x => x.Ascending(a => a.AuctionEnd)),
-               
+                
             };
 
             query = searchParams.FilterBy switch {

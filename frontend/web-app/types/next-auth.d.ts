@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Profile } from "next-auth";
+import { Profile, User } from "next-auth";
 import NextAuth, { type DefaultSession } from "next-auth";
 import { JWT } from "next-auth/jwt";
 declare module "next-auth" {
@@ -10,6 +10,9 @@ declare module "next-auth" {
     accessToken: string;
   }
   interface Profile {
+    username: string;
+  }
+  interface User {
     username: string;
   }
 }

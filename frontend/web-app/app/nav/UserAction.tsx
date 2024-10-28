@@ -1,14 +1,10 @@
 "use client";
-import {
-  Button,
-  Dropdown,
-  DropdownDivider,
-  DropdownItem,
-} from "flowbite-react";
+import { useParamStore } from "@/hooks/useParamsStore";
+import { Dropdown, DropdownDivider, DropdownItem } from "flowbite-react";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { AiFillCar, AiFillTrophy, AiOutlineLogout } from "react-icons/ai";
 import { HiCog, HiUser } from "react-icons/hi";
@@ -18,19 +14,31 @@ type Props = {
 };
 export default function UserAction({ user }: Readonly<Props>) {
   const router = useRouter();
+  const pathName = usePathname();
+  const setParams = useParamStore((state) => state.setParams);
+  function setWinner() {
+    setParams({ winner: user.username, seller: undefined });
+
+    if (pathName !== "/") router.push("/");
+  }
+  function setSeller() {
+    setParams({ seller: user.username, winner: undefined });
+
+    if (pathName !== "/") router.push("/");
+  }
   return (
     <Dropdown inline label={`Welcome ${user?.name}`}>
-      <DropdownItem icon={HiUser}>
-        <Link href="/">My Auctions</Link>
+      <DropdownItem icon={HiUser} onClick={setSeller}>
+        My Auctions
       </DropdownItem>
-      <DropdownItem icon={AiFillTrophy}>
-        <Link href="/">Auctions Won</Link>
+      <DropdownItem icon={AiFillTrophy} onClick={setWinner}>
+        Auctions Won
       </DropdownItem>
       <DropdownItem icon={AiFillCar}>
-        <Link href="/">Sell My car</Link>
+        <Link href="/auctions/create">Sell My car</Link>
       </DropdownItem>
       <DropdownItem icon={HiCog}>
-        <Link href="/">Sessions (dev only)</Link>
+        <Link href="/session">Sessions (dev only)</Link>
       </DropdownItem>
       <DropdownDivider>
         <DropdownItem

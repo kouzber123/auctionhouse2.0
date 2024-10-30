@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
 using MassTransit;
+using MongoDB.Bson;
 using MongoDB.Entities;
 using SearchService.Models;
 
@@ -16,8 +17,9 @@ namespace SearchService.Consumers
             Console.WriteLine("------consuming bid placed");
             var auction = await DB.Find<Item>().OneAsync(context.Message.AuctionId);
 
-            if(context.Message.BidStatus.Contains("Accepted") && context.Message.Amount > auction.CurrentHighBid ) {
-
+            if(context.Message.BidStatus.Contains("Accepted") 
+            && context.Message.Amount > auction.CurrentHighBid ) {
+                    Console.WriteLine("IM HERE IN THE BIDPLACED CONSUMER");
                 auction.CurrentHighBid = context.Message.Amount;
                 await auction.SaveAsync();
             }

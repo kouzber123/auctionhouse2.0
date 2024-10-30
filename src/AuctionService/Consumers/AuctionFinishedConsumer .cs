@@ -20,7 +20,7 @@ namespace AuctionService.Consumers
         public async Task Consume(ConsumeContext<AuctionFinished> dbContext)
         {
             Console.WriteLine("------_> bid place consuming");
-            var auction = await _dbContext.Auctions.FindAsync(dbContext.Message.AuctionId); 
+            var auction = await _dbContext.Auctions.FindAsync(Guid.Parse(dbContext.Message.AuctionId)); 
 
             if (dbContext.Message.ItemSold) {
 

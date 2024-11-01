@@ -13,14 +13,15 @@ COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.
 COPY src/Contracts/Contracts.csproj src/Contracts/Contracts.csproj
 COPY src/BiddingService/BiddingService.csproj src/BiddingService/BiddingService.csproj
 COPY src/NotificationService/NotificationService.csproj src/NotificationService/NotificationService.csproj
+
 # restore åackege deps
 
 RUN dotnet restore auctionHouse.sln
 
 # copy the app folders over
-COPY src/AuctionService src/AuctionService
+COPY src/NotificationService src/NotificationService
 COPY src/Contracts src/Contracts
-WORKDIR /app/src/AuctionService
+WORKDIR /app/src/NotificationService
 RUN dotnet publish -c Release -o /app/src/out
 
 
@@ -29,4 +30,4 @@ RUN dotnet publish -c Release -o /app/src/out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/src/out . 
-ENTRYPOINT [ "dotnet", "AuctionService.dll" ]
+ENTRYPOINT [ "dotnet", "NotificationService.dll" ]

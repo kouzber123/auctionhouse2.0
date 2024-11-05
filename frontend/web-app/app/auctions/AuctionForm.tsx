@@ -41,6 +41,7 @@ export default function AuctionForm({ auction }: Readonly<Props>) {
         throw new Error(res.error);
       }
       router.push(`/auctions/details/${id}`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.status + " " + error.message);
     }
@@ -52,7 +53,7 @@ export default function AuctionForm({ auction }: Readonly<Props>) {
       reset({ make, model, color, mileage, year });
     }
     setFocus("make");
-  }, [setFocus]);
+  }, [setFocus, auction, reset]);
   return (
     <form className="flex flex-col mt-3" onSubmit={handleSubmit(onSubmit)}>
       <Input

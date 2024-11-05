@@ -17,7 +17,7 @@ export default async function Session() {
       </div>
 
       <div className="mt-4">
-        <AuthTest />
+        <AuthTest session={session}/>
       </div>
     </div>
   );

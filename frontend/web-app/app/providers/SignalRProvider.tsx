@@ -13,8 +13,13 @@ import AuctionFinishedToast from "../components/AuctionFinishedToast";
 
 type Props = PropsWithChildren & {
   user: User | null;
+  notifyUrl: string | undefined;
 };
-export default function SignalRProvider({ children, user }: Readonly<Props>) {
+export default function SignalRProvider({
+  children,
+  user,
+  notifyUrl,
+}: Readonly<Props>) {
   // persisting connection
   const connection = useRef<HubConnection | null>(null);
   const setCurrentPrice = useAuctionStore((state) => state.setCurrentPrice);
@@ -35,7 +40,7 @@ export default function SignalRProvider({ children, user }: Readonly<Props>) {
               finishedAuction={finishedAuction}
             />
           ),
-          error: (err) => "Auction finished",
+          error: () => "Auction finished",
         },
         { success: { duration: 10000, icon: null } }
       );
@@ -65,9 +70,10 @@ export default function SignalRProvider({ children, user }: Readonly<Props>) {
     [setCurrentPrice, addBid, params.id]
   );
   useEffect(() => {
+    if (!notifyUrl) return;
     if (!connection.current) {
       connection.current = new HubConnectionBuilder()
-        .withUrl("http://localhost:6001/notifications")
+        .withUrl(notifyUrl)
         .withAutomaticReconnect()
         .build();
 
@@ -90,6 +96,7 @@ export default function SignalRProvider({ children, user }: Readonly<Props>) {
     handleBidPlaced,
     handleAuctionCreated,
     handleAuctionFinished,
+    notifyUrl,
   ]);
 
   return children;

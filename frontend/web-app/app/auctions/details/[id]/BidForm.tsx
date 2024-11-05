@@ -1,6 +1,6 @@
 "use client";
 import { placeBidForAuction } from "@/app/actions/auctionActions";
-import { currencyFormatter } from "@/app/lib/numberWithComma";
+import { currencyFormatter } from "@/app/helper/numberWithComma";
 import { useBidStore } from "@/hooks/useBidStore";
 import React from "react";
 import { FieldValues, useForm } from "react-hook-form";

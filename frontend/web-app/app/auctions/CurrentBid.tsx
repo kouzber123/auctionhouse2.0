@@ -1,5 +1,5 @@
 import React from "react";
-import { currencyFormatter } from "../lib/numberWithComma";
+import { currencyFormatter } from "../helper/numberWithComma";
 
 type Props = {
   amount?: number;

@@ -1,16 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import { UpdateAuction } from "../actions/auctionActions";
+import { updateAuction } from "../actions/auctionActions";
 import { Button } from "flowbite-react";
+import { Session } from "next-auth";
 
-export default function AuthTest() {
+type Props = {
+  session: Session | null;
+};
+export default function AuthTest({ session }: Readonly<Props>) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<unknown>();
 
   function doUpdate() {
     setResult(undefined);
     setLoading(true);
-    UpdateAuction()
+    updateAuction({}, session?.user.id ?? "")
       .then((res) => setResult(res))
       .catch((err) => setResult(err))
       .finally(() => setLoading(false));

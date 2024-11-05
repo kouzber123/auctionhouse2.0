@@ -10,7 +10,7 @@ import BidItem from "./BidItem";
 import EmptyFilter from "@/app/components/EmptyFilter";
 import BidForm from "./BidForm";
 import LoginButton from "@/app/nav/LoginButton";
-import { currencyFormatter } from "@/app/lib/numberWithComma";
+import { currencyFormatter } from "@/app/helper/numberWithComma";
 
 type Props = {
   user: User | null;
